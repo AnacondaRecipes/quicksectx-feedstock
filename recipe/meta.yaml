@@ -6,11 +6,11 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/quicksectx-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 2747d105c107de5458714750642b4e6a263206b3e1064d3957d6716b468d0c72
 
 build:
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   number: 0
 
 requirements:
@@ -19,10 +19,13 @@ requirements:
     - {{ compiler('c') }}
   host:
     - python
-    - cython >=0.25,<3.0
+    - cython 0.29.32
     - pip
+    - setuptools
+    - wheel
   run:
     - python
+    # cython is a runtime dependency https://github.com/jianlins/quicksectx/blob/50a548642932adfd040e1ad1a2cce36342dd5562/setup.py#L55
     - cython >=0.25,<3.0
 
 test:
@@ -36,10 +39,17 @@ test:
 
 about:
   home: https://github.com/jianlins/quicksectx
+  dev_url: https://github.com/jianlins/quicksectx
+  doc_url: https://github.com/jianlins/quicksectx
   summary: fast, simple interval intersection
+  description: fast, simple interval intersection
   license: MIT
+  license_family: MIT
   license_file: LICENSE
 
 extra:
   recipe-maintainers:
     - skupr-anaconda
+  skip-lints:
+    - python_build_tool_in_run
+    - cython_must_be_in_host
