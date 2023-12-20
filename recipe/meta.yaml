@@ -1,5 +1,5 @@
 {% set name = "quicksectx" %}
-{% set version = "0.3.5" %}
+{% set version = "0.3.8" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 2747d105c107de5458714750642b4e6a263206b3e1064d3957d6716b468d0c72
+  sha256: d0531229910506527065059129fdca75a1fc977b9092ee360d102338ba78198d
 
 build:
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
@@ -25,7 +25,7 @@ requirements:
     - wheel
   run:
     - python
-    # cython is a runtime dependency https://github.com/jianlins/quicksectx/blob/50a548642932adfd040e1ad1a2cce36342dd5562/setup.py#L55
+    # cython is a runtime dependency https://github.com/jianlins/quicksectx/blob/9be2655da196c3c3df06bc27e4c09da60ab6de7c/requirements.txt
     - cython >=0.25,<3.0
 
 test:
