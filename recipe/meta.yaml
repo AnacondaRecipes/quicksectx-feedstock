@@ -1,5 +1,5 @@
 {% set name = "quicksectx" %}
-{% set version = "0.3.8" %}
+{% set version = "0.4.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,11 +7,12 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: d0531229910506527065059129fdca75a1fc977b9092ee360d102338ba78198d
+  sha256: 25bc4ce3638c0713c8b57274454adac071e36ee76265707771eb3dab75245c55
 
 build:
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   number: 0
+  skip: True  # [py<38]
 
 requirements:
   build:
@@ -19,23 +20,27 @@ requirements:
     - {{ compiler('c') }}
   host:
     - python
-    - cython 0.29
+    - cython >=0.25,<=3.0.11
     - pip
-    - setuptools
+    - setuptools >=61.0.0
     - wheel
   run:
     - python
     # cython is a runtime dependency https://github.com/jianlins/quicksectx/blob/9be2655da196c3c3df06bc27e4c09da60ab6de7c/requirements.txt
-    - cython >=0.25,<3.0
+    - cython >=0.25,<=3.0.11
 
 test:
+  source_files:
+    - tests
   imports:
     - quicksect
     - quicksectx
   commands:
     - pip check
+    - pytest -vv tests
   requires:
     - pip
+    - pytest
 
 about:
   home: https://github.com/jianlins/quicksectx
