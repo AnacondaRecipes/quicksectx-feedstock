@@ -1,18 +1,18 @@
 {% set name = "quicksectx" %}
-{% set version = "0.4.0" %}
+{% set version = "0.4.1" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 25bc4ce3638c0713c8b57274454adac071e36ee76265707771eb3dab75245c55
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 91a51ab80a27c65ed80a7e23819566b629249c53eb50c149901fcdf3362fe1ca
 
 build:
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   number: 0
-  skip: True  # [py<38]
+  skip: true  # [py<38]
 
 requirements:
   build:
@@ -20,14 +20,14 @@ requirements:
     - {{ compiler('c') }}
   host:
     - python
-    - cython >=0.25,<=3.0.11
+    - cython >=0.25,<=3.0.8
     - pip
     - setuptools >=61.0.0
     - wheel
   run:
     - python
     # cython is a runtime dependency https://github.com/jianlins/quicksectx/blob/9be2655da196c3c3df06bc27e4c09da60ab6de7c/requirements.txt
-    - cython >=0.25,<=3.0.11
+    - cython >=0.25,<3.2.0
 
 test:
   source_files:
