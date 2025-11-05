@@ -16,17 +16,18 @@ build:
 
 requirements:
   build:
-    - {{ compiler('cxx') }}
+    - {{ stdlib('c') }}
     - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
   host:
     - python
-    - cython >=0.25,<=3.0.8
     - pip
     - setuptools >=61.0.0
+    - cython >=0.25,<=3.0.8
     - wheel
   run:
     - python
-    # cython is a runtime dependency https://github.com/jianlins/quicksectx/blob/9be2655da196c3c3df06bc27e4c09da60ab6de7c/requirements.txt
+    # https://github.com/jianlins/quicksectx/blob/0.4.1/requirements.txt
     - cython >=0.25,<3.2.0
 
 test:
@@ -37,6 +38,7 @@ test:
     - quicksectx
   commands:
     - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
     - pytest -vv tests
   requires:
     - pip
