@@ -23,7 +23,10 @@ requirements:
     - python
     - pip
     - setuptools >=61.0.0
-    - cython >=0.25,<=3.0.8
+    # No cython<=3.0.8 for py3.13
+    - cython >=0.25,<=3.0.8  # [py<313]
+    # cython 3.0.11 is the first version for py3.13
+    - cython 3.0.11 # [py>=313]
     - wheel
   run:
     - python
