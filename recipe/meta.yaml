@@ -11,7 +11,7 @@ source:
 
 build:
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
-  number: 0
+  number: 1
   skip: true  # [py<38]
 
 requirements:
@@ -23,13 +23,14 @@ requirements:
     - python
     - pip
     - setuptools >=61.0.0
+    # Upstream [build] requires: Cython >=0.25,<3.0.8
     # No cython<=3.0.8 for py3.13
     - cython >=0.25,<=3.0.8  # [py<313]
-    # cython 3.0.11 is the first version for py3.13
-    - cython 3.0.11 # [py>=313]
+    - cython >=0.25,<3.2.0   # [py>=313]
     - wheel
   run:
     - python
+    # Upstream [dependencies] requires: Cython >=0.25,<3.2.0
     # https://github.com/jianlins/quicksectx/blob/0.4.1/requirements.txt
     - cython >=0.25,<3.2.0
 
@@ -42,7 +43,7 @@ test:
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest -vv tests
+    - pytest -ra -vv tests
   requires:
     - pip
     - pytest
